@@ -26,7 +26,7 @@ Se implementó un pipeline de datos en Python para:
 
 ## 📁 Estructura del Repositorio
 * **`Jupyter/`**: Contiene el notebook principal `Caso_Estudio_Solar_Malambo.ipynb` con el flujo completo de análisis y ML.
-* **`visuals/`**: Exportación en alta resolución de las 12 figuras académicas generadas (distribuciones, perfiles horarios, importancia de variables, evaluación visual de residuos, etc.).
+* **`visuals/`**: Exportación en alta resolución de las 13 figuras académicas generadas (distribuciones, perfiles horarios, importancia de variables, evaluación visual de residuos, etc.).
 * **`csv/`**: Dataset `ANALISIS_SOLAR_UNIFICADO.xlsx` con los datos originales y procesados.
 * **`requirements.txt`**: Archivo de dependencias para reproducibilidad total del entorno.
 
