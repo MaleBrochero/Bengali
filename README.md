@@ -43,7 +43,7 @@ El flujo de trabajo implementado en el ecosistema de Python se divide en tres fa
 
 ## 📊 Catálogo de Visuales Académicos (`visuals/`)
 
-El repositorio contiene exactamente **15 figuras académicas secuenciales** exportadas en alta resolución (300 DPI) para su inclusión directa en artículos científicos, posters o presentaciones ejecutivas:
+El repositorio contiene exactamente **13 figuras académicas secuenciales** exportadas en alta resolución (300 DPI) para su inclusión directa en artículos científicos, posters o presentaciones ejecutivas:
 
 * **`fig1_estructura_datos.png`**: Mapa de calor de valores nulos para el control de calidad estructural del dataset.
 * **`fig2_serie_temporal_potencia.png`**: Historial continuo de generación real capturado por el inversor Hoymiles.
@@ -56,17 +56,15 @@ El repositorio contiene exactamente **15 figuras académicas secuenciales** expo
 * **`fig9_heterocedasticidad_residuos.png`**: Diagnóstico de varianza residual vs valores ajustados, confirmando heterocedasticidad en el modelo OLS lineal.
 * **`fig10_histograma_residuos_ols.png`**: Histograma de errores de predicción de la regresión lineal multivariada.
 * **`fig11_real_vs_predicho_ml.png`**: Gráfica de dispersión comparativa: Potencia Real vs Predicciones de Machine Learning (Random Forest vs CatBoost).
-* **`fig12_comparativa_mae.png`**: Gráfico de barras comparativo del Error Absoluto Medio (MAE) en vatios para los cuatro modelos analizados.
-* **`fig13_analisis_residuos.png`**: Histograma comparativo de residuos de predicción entre Random Forest y CatBoost.
-* **`fig14_serie_temporal_zoom.png`**: Serie temporal a detalle (zoom de 2 días) evaluando el comportamiento de las curvas de predicción de Machine Learning vs la realidad.
-* **`fig15_serie_temporal_completa.png`**: Comparativa de series temporales continuas a lo largo de 5 días para validar la consistencia predictiva de los modelos.
+* **`fig12_comparativa_mae.png`**: Gráfico de barras comparativo del Error Absoluto Medio (MAE) en vatios para los modelos analizados.
+* **`fig13_serie_temporal_completa.png`**: Comparativa de series temporales continuas a lo largo de 5 días para validar la consistencia predictiva de los modelos.
 
 ---
 
 ## 📁 Estructura del Repositorio
 
 * **`Jupyter/`**: Contiene el notebook de Jupyter principal `Caso_Estudio_Solar_Malambo.ipynb`, completamente ejecutado, limpio de códigos huérfanos y guardado con sus salidas inline.
-* **`visuals/`**: Carpeta de exportación oficial que alberga las 15 figuras numeradas secuencialmente en formato `.png`.
+* **`visuals/`**: Carpeta de exportación oficial que alberga las 13 figuras numeradas secuencialmente en formato `.png`.
 * **`csv/`**: Archivos de datos unificados en formato Excel (`ANALISIS_SOLAR_UNIFICADO.xlsx`).
 * **`docs/`**: Documentos adicionales y PDF de la presentación final del caso de estudio.
 * **`requirements.txt`**: Archivo de requisitos que describe la versión exacta de las dependencias necesarias para garantizar la reproducibilidad científica total.
