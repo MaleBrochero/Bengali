@@ -1,74 +1,127 @@
-# Análisis de Potencia Fotovoltaica: Caso I.E. Nuestra Señora de la Candelaria
+# Análisis Multivariado de Planta Fotovoltaica
+## Institución Educativa – Malambo, Atlántico (Colombia)
 
-Este proyecto desarrolla un **Análisis Correlacional, Modelamiento Físico y Predictivo Avanzado** para evaluar la precisión de la estimación de potencia en un sistema fotovoltaico on-grid ubicado en Malambo, Atlántico. 
+| Campo | Detalle |
+|---|---|
+| **Programa** | Maestría en Gestión Energética – Universidad del Atlántico |
+| **Sistema fotovoltaico** | 4 × Trina Solar TSM-540 DEG18MC.20(II) |
+| **Inversor** | Microinversor Hoymiles (monitoreo en la nube) |
+| **Proxy meteorológico** | Aeropuerto Internacional Ernesto Cortissoz (IATA: BAQ) |
+| **Período de análisis** | 17 de abril – 08 de mayo de 2026 (22 días) |
+| **Total de registros** | 1 136 (frecuencia mixta: 15 min predominante) |
 
-El núcleo de la investigación compara los datos de generación real del inversor frente a las estimaciones teóricas basadas en datos climáticos de la estación meteorológica del Aeropuerto Ernesto Cortissoz (ubicada a ~5 km del sitio de estudio), utilizando **Machine Learning (CatBoost)** para cerrar la brecha de precisión causada por la varianza microclimática local y las dinámicas transitorias de nubosidad tropical.
+---
+
+## 🔬 Pregunta de Investigación
+
+> *¿En qué medida las variables meteorológicas registradas en el Aeropuerto Ernesto Cortissoz (temperatura y humedad relativa) explican la diferencia entre la potencia teórica estimada mediante el modelo físico del diodo y la potencia real medida por el inversor Hoymiles en la Institución Educativa de Malambo?*
 
 ---
 
 ## 📊 Resumen del Pipeline Metodológico
 
-El flujo de trabajo implementado en el ecosistema de Python se divide en tres fases analíticas:
+El flujo de trabajo implementado en el ecosistema de Python se divide en **12 secciones analíticas**:
 
-1. **Modelamiento Físico de Referencia:** Simulación de la potencia teórica del sistema (4 paneles solares de 340W) mediante el modelo físico de un diodo y estimaciones de irradiancia proxy (`pvlib`).
-2. **Análisis de Residuos y Brecha de Microclima:** Evaluación espacial y temporal de la subestimación sistemática del modelo físico frente a la realidad local. Se identifican las brechas asociadas a efectos locales de nubosidad y fallos operativos (caídas por desconexión de red o efecto isla).
-3. **Machine Learning No Lineal:** Implementación y entrenamiento de modelos no lineales (**Random Forest** y **CatBoost Regressor**) para capturar las complejas interacciones meteorológicas locales, superando con creces la regresión lineal multivariada (OLS).
+1. **Configuración e Importaciones** – Instalación condicional de dependencias y configuración del entorno de visualización.
+2. **Carga y Exploración de Datos (EDA)** – Estadísticas descriptivas y control de calidad (nulos, anomalías físicas).
+3. **Pruebas de Normalidad** – Shapiro-Wilk, Anderson-Darling y Q-Q plots para las variables clave.
+4. **Modelo Físico del Diodo Único (pvlib)** – Simulación de la potencia teórica mediante el modelo De Soto (2006).
+5. **Validación: Real vs. Teórico** – Comparativa multi-día y análisis de sincronización de la brecha de potencia.
+6. **Análisis Correlacional: Pearson y Spearman** – Heatmap y scatter de correlación entre variables.
+7. **Regresión OLS Multivariada** – Modelo lineal de referencia con diagnóstico de heterocedasticidad (Breusch-Pagan).
+8. **Métricas de Error del Modelo** – Comparativa de MAE, RMSE y R² para todos los modelos.
+9. **Diagnóstico de Residuos** – Análisis de la distribución y comportamiento de los residuos del modelo OLS.
+10. **Modelado Avanzado: Machine Learning No Lineal** – Random Forest y CatBoost Regressor con importancia de variables.
+11. **Evaluación Visual: Residuos y Series Temporales** – Real vs. predicho (ML) y serie temporal continua (22 días).
+12. **Conclusiones y Recomendaciones** – Síntesis de hallazgos y limitaciones metodológicas.
 
 ---
 
 ## 📈 Métricas de Rendimiento y Hallazgos Clave
 
-* **Salto Predictivo Radical:** La regresión lineal (OLS) es incapaz de modelar la complejidad del sistema ($R^2 = 0.08$ y un alto MAE de 242.06 W). El modelo no lineal **CatBoost** incrementó drásticamente la capacidad explicativa, logrando un **$R^2 = 0.58$** en el set de prueba.
-* **Reducción de Errores de Predicción:** El Error Absoluto Medio (MAE) se redujo sistemáticamente conforme se incrementó la sofisticación del modelado:
-  * **Modelo Físico (Diodo):** $MAE = 173.06 \text{ W}$ (Desviación constante por distancia de la estación).
-  * **Regresión Lineal (OLS):** $MAE = 242.06 \text{ W}$ (Fracaso por suponer linealidad en factores atmosféricos).
-  * **Random Forest:** $MAE = 125.79 \text{ W}$ ($R^2 = 0.556$).
-  * **CatBoost Regressor:** **$MAE = 123.57 \text{ W}$** ($R^2 = 0.580$ - Modelo óptimo y definitivo).
-* **Importancia de Variables (Feature Importance):** La **Irradiancia Proxy** representa el factor preponderante en el entrenamiento de los árboles, seguida por la **Temperatura Ambiente** y el **Índice UV** (factores críticos que alteran la curva de eficiencia del silicio de los paneles).
+| Modelo | MAE (W) | R² |
+|---|---|---|
+| Modelo Físico (Diodo) | 173.06 | — |
+| Regresión Lineal (OLS) | 242.06 | 0.08 |
+| Random Forest | 125.79 | 0.556 |
+| **CatBoost Regressor** | **123.57** | **0.580** |
+
+- **Salto Predictivo Radical:** La regresión lineal (OLS) es incapaz de modelar la complejidad del sistema. El modelo no lineal **CatBoost** incrementó drásticamente la capacidad explicativa.
+- **Importancia de Variables:** La **Irradiancia Proxy** es el factor preponderante, seguida por la **Temperatura Ambiente** y el **Índice UV**.
 
 ---
 
 ## 🛠️ Tecnologías y Librerías Utilizadas
 
-* **Entorno:** Python 3.13
-* **Librerías Clave:** 
-  * `CatBoost` para el modelado de gradiente boosting no lineal (optimizado en memoria mediante `allow_writing_files=False`).
-  * `Scikit-Learn` para ensambles de Random Forest, división de datos y métricas de validación.
-  * `pvlib` para la simulación física de la curva del panel solar.
-  * `statsmodels` para diagnósticos estadísticos de heterocedasticidad (Breusch-Pagan) y OLS.
-  * `pandas` & `numpy` para procesamiento, limpieza estructural de nulos e imputación.
-  * `seaborn` & `matplotlib` para la generación y exportación de visuales vectoriales.
+- **Entorno:** Python 3.13 + JupyterLab
+- **Librerías clave:**
+  - `pvlib` – Simulación física del panel solar (modelo De Soto del diodo único).
+  - `statsmodels` – Regresión OLS y prueba de heterocedasticidad (Breusch-Pagan).
+  - `scikit-learn` – Random Forest Regressor, métricas de validación y split de datos.
+  - `catboost` – Gradient Boosting no lineal optimizado.
+  - `scipy` – Pruebas de normalidad (Shapiro-Wilk, Anderson-Darling).
+  - `pandas` & `numpy` – Procesamiento y limpieza de datos.
+  - `seaborn` & `matplotlib` – Generación y exportación de visuales (300 DPI).
+  - `openpyxl` – Lectura del archivo Excel de datos unificados.
 
 ---
 
-## 📊 Catálogo de Visuales Académicos (`visuals/`)
+## 📊 Catálogo de Figuras Académicas (`visuals/`)
 
-El repositorio contiene exactamente **13 figuras académicas secuenciales** exportadas en alta resolución (300 DPI) para su inclusión directa en artículos científicos, posters o presentaciones ejecutivas:
+El repositorio contiene **12 figuras académicas** exportadas en alta resolución (300 DPI):
 
-* **`fig1_estructura_datos.png`**: Mapa de calor de valores nulos para el control de calidad estructural del dataset.
-* **`fig2_serie_temporal_potencia.png`**: Historial continuo de generación real capturado por el inversor Hoymiles.
-* **`fig3_comportamiento_irradiancia.png`**: Historial temporal de la irradiancia estimada proxy calculada en el sitio.
-* **`fig4_analisis_irradiancia.png`**: Diagrama de cajas de 6 franjas diurnas estructuradas (desde Mañana Temprana hasta Tarde Final) que muestra la distribución de energía.
-* **`fig5_potencia_vs_irradiancia.png`**: Gráfico de dispersión empírico que ilustra la relación no lineal entre la potencia real y la irradiancia proxy.
-* **`fig6_multidia_real_teorica.png`**: Comparativa multi-día (6 paneles de fecha) que resalta en color **verde suave translúcido** la brecha de potencia causada por dinámicas microclimáticas locales.
-* **`fig7_histograma_residuos_fisico.png`**: Histograma de distribución de residuos del modelo físico que evidencia una subestimación sistemática.
-* **`fig8_scatter_correlacion.png`**: Gráfico de dispersión con línea de ajuste para evaluar la correlación real vs estimación teórica.
-* **`fig9_heterocedasticidad_residuos.png`**: Diagnóstico de varianza residual vs valores ajustados, confirmando heterocedasticidad en el modelo OLS lineal.
-* **`fig10_histograma_residuos_ols.png`**: Histograma de errores de predicción de la regresión lineal multivariada.
-* **`fig11_real_vs_predicho_ml.png`**: Gráfica de dispersión comparativa: Potencia Real vs Predicciones de Machine Learning (Random Forest vs CatBoost).
-* **`fig12_comparativa_mae.png`**: Gráfico de barras comparativo del Error Absoluto Medio (MAE) en vatios para los modelos analizados.
-* **`fig13_serie_temporal_completa.png`**: Comparativa de series temporales continuas a lo largo de 5 días para validar la consistencia predictiva de los modelos.
+| Figura | Descripción |
+|---|---|
+| `fig1_distribucion_variables.png` | Histogramas y KDE de distribución de las variables principales del dataset. |
+| `fig2_perfil_horario.png` | Perfil horario promedio (boxplot por hora) de potencia real e irradiancia. |
+| `fig3_heatmap_correlacion.png` | Mapa de calor de correlaciones de Pearson y Spearman entre todas las variables. |
+| `fig4_analisis_irradiancia.png` | Boxplot de irradiancia estimada por franja horaria diurna. |
+| `fig5_qq_normalidad.png` | Q-Q plots de normalidad para potencia real, temperatura y residuos. |
+| `fig6_multidia_real_teorica.png` | Comparativa multi-día (6 fechas) de potencia real vs. teórica con brecha sombreada. |
+| `fig7_multidia_sincronizacion.png` | Análisis multi-día de la sincronización temporal entre real y teórico. |
+| `fig8_scatter_correlacion.png` | Scatter de correlación: potencia real vs. potencia teórica con línea de ajuste. |
+| `fig9_diagnostico_residuos.png` | Diagnóstico completo de residuos del modelo OLS. |
+| `fig10_importancia_variables.png` | Importancia relativa de variables en los modelos de Machine Learning. |
+| `fig11_real_vs_predicho_ml.png` | Scatter comparativo: potencia real vs. predicciones de Random Forest y CatBoost. |
+| `fig12_comparativa_mae.png` | Gráfico de barras comparativo del MAE (W) para todos los modelos analizados. |
+
+> **Nota:** `fig15_serie_temporal_completa.png` (serie temporal de 22 días) se genera al ejecutar el notebook completo.
 
 ---
 
 ## 📁 Estructura del Repositorio
 
-* **`Jupyter/`**: Contiene el notebook de Jupyter principal `Caso_Estudio_Solar_Malambo.ipynb`, completamente ejecutado, limpio de códigos huérfanos y guardado con sus salidas inline.
-* **`visuals/`**: Carpeta de exportación oficial que alberga las 13 figuras numeradas secuencialmente en formato `.png`.
-* **`csv/`**: Archivos de datos unificados en formato Excel (`ANALISIS_SOLAR_UNIFICADO.xlsx`).
-* **`docs/`**: Documentos adicionales y PDF de la presentación final del caso de estudio.
-* **`requirements.txt`**: Archivo de requisitos que describe la versión exacta de las dependencias necesarias para garantizar la reproducibilidad científica total.
+```
+Bengali/
+├── Jupyter/
+│   └── Caso_Estudio_Solar_Malambo.ipynb   ← Notebook principal (completamente ejecutado)
+├── visuals/                               ← 12 figuras académicas en PNG (300 DPI)
+├── csv/
+│   └── ANALISIS_SOLAR_UNIFICADO.xlsx      ← Dataset unificado (1 136 registros)
+├── docs/                                  ← Presentación y documentos adicionales
+├── requirements.txt                       ← Dependencias del entorno Python
+└── README.md
+```
 
 ---
+
+## ▶️ Reproducibilidad
+
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/MaleBrochero/Bengali.git
+cd Bengali
+
+# 2. Instalar dependencias
+pip install -r requirements.txt
+
+# 3. Ejecutar el notebook
+jupyter lab Jupyter/Caso_Estudio_Solar_Malambo.ipynb
+```
+
+> El notebook instala automáticamente las dependencias faltantes al ejecutarse.
+
+---
+
 **Autor:** Maria Jose Leal Brochero  
-*Estudiante de la Maestría en Gestión Energética - Universidad del Atlántico*
+*Estudiante de la Maestría en Gestión Energética – Universidad del Atlántico*
