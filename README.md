@@ -1,9 +1,9 @@
-# Análisis Multivariado de Planta Fotovoltaica
+# Evaluación del rendimiento operativo del inversor fotovoltaico en la Institución Educativa Nuestra Señora de la Candelaria: Limitaciones de la modelación teórica ante datos meteorológicos remotos
 ## Institución Educativa – Malambo, Atlántico (Colombia)
 
 | Campo | Detalle |
 |---|---|
-| **Programa** | Maestría en Gestión Energética – Universidad del Atlántico |
+| **Programa** | Especialización en Ciencia de Datos – Institución Universitaria de Barranquilla |
 | **Sistema fotovoltaico** | 4 × Trina Solar TSM-540 DEG18MC.20(II) |
 | **Inversor** | Microinversor Hoymiles (monitoreo en la nube) |
 | **Proxy meteorológico** | Aeropuerto Internacional Ernesto Cortissoz (IATA: BAQ) |
@@ -76,28 +76,28 @@ El repositorio contiene **12 figuras académicas** exportadas en alta resolució
 | `fig2_perfil_horario.png` | Perfil horario promedio (boxplot por hora) de potencia real e irradiancia. |
 | `fig3_heatmap_correlacion.png` | Mapa de calor de correlaciones de Pearson y Spearman entre todas las variables. |
 | `fig4_analisis_irradiancia.png` | Boxplot de irradiancia estimada por franja horaria diurna. |
-| `fig5_qq_normalidad.png` | Q-Q plots de normalidad para potencia real, temperatura y residuos. |
-| `fig6_multidia_real_teorica.png` | Comparativa multi-día (6 fechas) de potencia real vs. teórica con brecha sombreada. |
-| `fig7_multidia_sincronizacion.png` | Análisis multi-día de la sincronización temporal entre real y teórico. |
+| `fig5_qq_normalidad.png` | Q‑Q plots de normalidad para potencia real, temperatura y residuos. |
+| `fig6_multidia_real_teorica.png` | Comparativa multi‑día (6 fechas) de potencia real vs. teórica con brecha sombreada. |
+| `fig7_multidia_sincronizacion.png` | Análisis multi‑día de la sincronización temporal entre real y teórico. |
 | `fig8_scatter_correlacion.png` | Scatter de correlación: potencia real vs. potencia teórica con línea de ajuste. |
 | `fig9_diagnostico_residuos.png` | Diagnóstico completo de residuos del modelo OLS. |
 | `fig10_importancia_variables.png` | Importancia relativa de variables en los modelos de Machine Learning. |
 | `fig11_real_vs_predicho_ml.png` | Scatter comparativo: potencia real vs. predicciones de Random Forest y CatBoost. |
 | `fig12_comparativa_mae.png` | Gráfico de barras comparativo del MAE (W) para todos los modelos analizados. |
 
-> **Nota:** `fig15_serie_temporal_completa.png` (serie temporal de 22 días) se genera al ejecutar el notebook completo.
+> **Nota:** `fig15_serie_temporal_completa.png` (serie temporal de 22 días) se genera al ejecutar el notebook completo.
 
 ---
 
 ## 📁 Estructura del Repositorio
 
-```
+```text
 Bengali/
 ├── Jupyter/
 │   └── Caso_Estudio_Solar_Malambo.ipynb   ← Notebook principal (completamente ejecutado)
 ├── visuals/                               ← 12 figuras académicas en PNG (300 DPI)
 ├── csv/
-│   └── ANALISIS_SOLAR_UNIFICADO.xlsx      ← Dataset unificado (1 136 registros)
+│   └── ANALISIS_SOLAR_UNIFICADO.xlsx      ← Dataset unificado (1 136 registros)
 ├── docs/                                  ← Presentación y documentos adicionales
 ├── requirements.txt                       ← Dependencias del entorno Python
 └── README.md
@@ -123,5 +123,13 @@ jupyter lab Jupyter/Caso_Estudio_Solar_Malambo.ipynb
 
 ---
 
-**Autor:** Maria Jose Leal Brochero  
-*Estudiante de la Maestría en Gestión Energética – Universidad del Atlántico*
+**Autores:**  
+- María José Leal Brochero  
+- Mauricio Javier Torres Calderón  
+
+**Tutores:**  
+- Magister Daves Roa  
+- Doctora Luz Enith Marquez  
+- (c) Doctor Emerson Rojas  
+
+*Caso de estudio para el posgrado de Especialización en Ciencia de Datos – Institución Universitaria de Barranquilla*
