@@ -1,0 +1,4 @@
+Jupyter/catboost_info/
+catboost_info/
+*.html
+*.log
